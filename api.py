@@ -4,11 +4,15 @@
 " Copyright 2021-2021 oGsLP(1145234011@qq.com/ogssober@gmail.com)
 " But go fuck the copyright, as you can do anything to the shit.
 " @author: oGsLP
-" @file: main.py
-" @time: 2021/8/4 12:14
+" @file: api.py
+" @time: 2021/8/4 22:16
 " @function: 
 """
-from manage import run
+from flask import Blueprint
 
-if __name__ == '__main__':
-    run()
+api = Blueprint("api", __name__)
+
+
+@api.route("/test")
+def test():
+    return "testeeddds"

@@ -4,11 +4,12 @@
 " Copyright 2021-2021 oGsLP(1145234011@qq.com/ogssober@gmail.com)
 " But go fuck the copyright, as you can do anything to the shit.
 " @author: oGsLP
-" @file: main.py
-" @time: 2021/8/4 12:14
+" @file: math_constants.py
+" @time: 2021/8/4 16:54
 " @function: 
 """
-from manage import run
+from .constant import Constant
 
-if __name__ == '__main__':
-    run()
+@Constant
+class MathConstants(object):
+    sth = ""
