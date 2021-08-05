@@ -8,6 +8,7 @@
 " @time: 2021/8/4 17:08
 " @function: 
 """
+
 import requests
 
 from constants import Const
@@ -30,12 +31,17 @@ class Crawler(object):
         # 构造请求url
         url = self._construct_url(code, data_range)
         # 获取包含数据的js代码
-        res = requests.get(url).content
+        res = requests.get(url).text
         # TODO: 从text中提取出json数据
-        data = res
-
+        if not res or res.count("\"") != 2:
+            raise Exception("[Exception] cannot resolve response data!")
+        data = []
+        for s in ((res.split("\"")[1]).split(";"))[1:]:
+            print(s)
+            print(s.split("_"))
+            # data.append()
+        print(len(data))
         # 返回数据供处理
-        print(data)
         return data
 
     def _construct_url(self, code: int, data_range: str) -> str:
