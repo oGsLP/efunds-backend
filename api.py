@@ -12,7 +12,10 @@ from flask import Blueprint
 
 api = Blueprint("api", __name__)
 
+from service import DataService
+
+data_servive = DataService()
 
 @api.route("/test")
 def test():
-    return "testeeddds"
+    return data_servive.get_raw_data(110022)

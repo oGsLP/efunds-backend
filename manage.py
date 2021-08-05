@@ -15,7 +15,7 @@ from flask import Flask
 from api import api as api_blueprint
 
 from constants import Const
-from util.date_util import get_now
+from util.date_util import get_current_time
 
 CONST = Const.server
 
@@ -33,7 +33,7 @@ def run():
     if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
         print("------- running server on {}:{} -------".format(CONST.HOST, CONST.PORT))
     else:
-        print("[RESTART {}] server on {}:{}".format(get_now(),CONST.HOST, CONST.PORT))
+        print("[RESTART {}] server on {}:{}".format(get_current_time(),CONST.HOST, CONST.PORT))
     app.run(debug=CONST.DEBUG, host=CONST.HOST, port=CONST.PORT)
 
 

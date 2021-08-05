@@ -17,6 +17,6 @@ class CrawlerConstants(object):
     # 消费行业股票基金代码
     CONSUMER_SECTOR_STOCK_CODE = 110022
     # 数据请求类型 今年 所有 时间段
-    TYPE_CURRENT_YEAR = "cy"
-    TYPE_ALL = "all"
+    RANGE_CURRENT_YEAR = "cy"
+    RANGE_ALL = "all"
 

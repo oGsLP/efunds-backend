@@ -8,6 +8,8 @@
 " @time: 2021/8/4 17:08
 " @function: 
 """
+import requests
+
 from util.date_util import *
 
 from constants import Const
@@ -18,8 +20,18 @@ class Crawler(object):
     def __init__(self):
         print("start crawler")
 
-    def crawl_data(self, code=Const.crawler.CONSUMER_SECTOR_STOCK_CODE, type=Const.crawler.TYPE_ALL, date=None):
-        print(self.__construct_url(code, type))
+    def crawl_data(self, code: int = Const.crawler.CONSUMER_SECTOR_STOCK_CODE, data_range: str = Const.crawler.RANGE_ALL,
+                   date: tuple = None):
+        # 构造请求url
+        url = self._construct_url(code, data_range)
+        # 获取包含数据的js代码
+        res = requests.get(url).content
+        # TODO: 从text中提取出json数据
+        data = res
 
-    def __construct_url(self, code, type):
-        return Const.crawler.URL.format(code, type, )
+        # 返回数据供处理
+        print(data)
+        return data
+
+    def _construct_url(self, code: int, data_range: str) -> str:
+        return Const.crawler.URL.format(code, data_range, get_current_date())
