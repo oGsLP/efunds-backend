@@ -11,9 +11,10 @@
 import os
 
 import yaml
-from yaml import SafeLoader
 from pymongo import MongoClient
+from yaml import SafeLoader
 
+from util.date_util import get_current_time
 
 MONGODB_ATLAS_URL_TEMPLATE = "mongodb+srv://{}:{}@{}/test?retryWrites=true&w=majority"
 MONGODB_CONFIG_FILE = "db-config.yaml"
@@ -23,9 +24,12 @@ class MongoDBConnector(object):
     __mongodb_connection = None
 
     def __init__(self):
-        print("try to connect to mongodb atlas server ...")
+        print(" + Trying to connect to mongodb atlas server ...")
         self.__load_config()
-        print("connected to mongodb atlas server!")
+        print(" + Connected to mongodb atlas server!")
+
+    def init(self):
+        self.get_db("monitor").get_collection("connections").insert_one({"time": get_current_time()})
 
     def __new__(cls, *args, **kwargs):
         if not hasattr(cls, 'instance'):
@@ -35,7 +39,7 @@ class MongoDBConnector(object):
     def __load_config(self):
         cur_path = os.path.dirname(os.path.realpath(__file__))
         with open(os.path.join(cur_path, MONGODB_CONFIG_FILE), encoding="utf-8") as f:
-            data = yaml.load(f,Loader=SafeLoader)
+            data = yaml.load(f, Loader=SafeLoader)
             if not data:
                 raise Exception("Cannot resolve mongodb configuration!")
             (user, passwd, server) = data.values()

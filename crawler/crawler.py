@@ -10,17 +10,22 @@
 """
 import requests
 
-from util.date_util import *
-
 from constants import Const
+from util.date_util import *
 
 
 class Crawler(object):
 
     def __init__(self):
-        print("start crawler")
+        print(" + Start crawler")
 
-    def crawl_data(self, code: int = Const.crawler.CONSUMER_SECTOR_STOCK_CODE, data_range: str = Const.crawler.RANGE_ALL,
+    def __new__(cls, *args, **kwargs):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(Crawler, cls).__new__(cls)
+        return cls.instance
+
+    def crawl_data(self, code: int = Const.crawler.CONSUMER_SECTOR_STOCK_CODE,
+                   data_range: str = Const.crawler.RANGE_ALL,
                    date: tuple = None):
         # 构造请求url
         url = self._construct_url(code, data_range)

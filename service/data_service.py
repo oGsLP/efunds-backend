@@ -17,6 +17,10 @@ from util.date_util import *
 class DataService(object):
 
     def __init__(self):
+        self.__crawler = None
+        self.__connector = None
+
+    def init(self):
         self.__crawler = Crawler()
         self.__connector = MongoDBConnector()
 
@@ -32,4 +36,7 @@ class DataService(object):
             date[0] = get_min_date()
         if not check_date_format(to_date):
             date[1] = get_max_date()
-        return self.__crawler.crawl_data(code=code, data_range=Const.crawler.RANGE_ALL,date=tuple(date))
+        return self.__crawler.crawl_data(code=code, data_range=Const.crawler.RANGE_ALL, date=tuple(date))
+
+
+data_service = DataService()

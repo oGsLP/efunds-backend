@@ -8,32 +8,41 @@
 " @time: 2021/8/4 12:14
 " @function: 
 """
-import datetime
 import os
 
 from flask import Flask
-from api import api as api_blueprint
 
+from api import api as api_blueprint
 from constants import Const
+from crawler import Crawler
+from db import MongoDBConnector
 from util.date_util import get_current_time
 
 CONST = Const.server
 
 
-def _create_app():
+def __create_app():
     app = Flask("efunds-backend")
 
     app.register_blueprint(api_blueprint)
 
-    return app
-
-
-def run():
-    app = _create_app()
     if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
         print("------- running server on {}:{} -------".format(CONST.HOST, CONST.PORT))
     else:
-        print("[RESTART {}] server on {}:{}".format(get_current_time(),CONST.HOST, CONST.PORT))
+        print("[RESTART {}] server on {}:{}".format(get_current_time(), CONST.HOST, CONST.PORT))
+        __init_services()
+
+    return app
+
+
+def __init_services():
+    Crawler()
+    MongoDBConnector().init()
+
+
+def run():
+    app = __create_app()
+
     app.run(debug=CONST.DEBUG, host=CONST.HOST, port=CONST.PORT)
 
 
