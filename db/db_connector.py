@@ -14,6 +14,7 @@ import yaml
 from pymongo import MongoClient
 from yaml import SafeLoader
 
+from constants import Const
 from util.date_util import get_current_time
 
 MONGODB_ATLAS_URL_TEMPLATE = "mongodb+srv://{}:{}@{}/test?retryWrites=true&w=majority"
@@ -29,7 +30,8 @@ class MongoDBConnector(object):
         print(" + Connected to mongodb atlas server!")
 
     def init(self):
-        self.get_db("monitor").get_collection("connections").insert_one({"time": get_current_time()})
+        self.get_db(Const.db.DB_MONITOR).get_collection(Const.db.COL_CONNECTION).insert_one(
+            {"time": get_current_time()})
 
     def __new__(cls, *args, **kwargs):
         if not hasattr(cls, 'instance'):
@@ -52,7 +54,7 @@ class MongoDBConnector(object):
 
 # 保证server/database有数据
 if __name__ == '__main__':
-    db = MongoDBConnector().get_db("test")
+    db = MongoDBConnector().get_db(Const.db.DB_TEST)
     collections = db.list_collection_names()
-    if "test" not in collections:
-        db.get_collection("test").insert_one({"name": "test"})
+    if Const.db.COL_TEST not in collections:
+        db.get_collection(Const.db.COL_TEST).insert_one({"name": "test", "time": get_current_time()})

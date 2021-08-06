@@ -10,6 +10,7 @@
 """
 from .constant import Constant
 from .crawler_constants import CrawlerConstants
+from .db_constants import DataBaseConstants
 from .math_constants import MathConstants
 from .server_constants import ServerConstants
 
@@ -19,6 +20,7 @@ class _Const(object):
     crawler = CrawlerConstants()
     math = MathConstants()
     server = ServerConstants()
+    db = DataBaseConstants()
 
 
 Const = _Const()
