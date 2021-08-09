@@ -15,7 +15,6 @@ from flask import Flask
 from api import api as api_blueprint
 from constants import Const
 from crawler import Crawler
-from db import MongoDBConnector
 from util.date_util import get_current_time
 
 CONST = Const.server
@@ -37,7 +36,8 @@ def __create_app():
 
 def __init_services():
     Crawler()
-    MongoDBConnector().init()
+    # TODO: 暂时关闭数据库连接，方便开发
+    # MongoDBConnector().init()
 
 
 def run():

@@ -10,7 +10,6 @@
 """
 from constants import Const
 from crawler import Crawler
-from db import MongoDBConnector
 from util.date_util import *
 
 
@@ -22,7 +21,8 @@ class DataService(object):
 
     def init(self):
         self.__crawler = Crawler()
-        self.__connector = MongoDBConnector()
+        # TODO: 暂时关闭数据库连接，方便开发
+        # self.__connector = MongoDBConnector()
 
     def get_raw_data(self, code):
         return self.__crawler.crawl_data(code=code, data_range=Const.crawler.RANGE_ALL)

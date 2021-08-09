@@ -13,9 +13,10 @@ from flask import Blueprint
 api = Blueprint("api", __name__)
 
 from service import service_factory
+from util.api_util import succeed
 
 
 @api.route("/test")
 def test():
     data_service = service_factory.data_service
-    return data_service.get_raw_data(110022)
+    return succeed(data_service.get_raw_data(110022))
