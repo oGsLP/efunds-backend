@@ -4,9 +4,12 @@
 " Copyright 2021-2021 oGsLP(1145234011@qq.com/ogssober@gmail.com)
 " But go fuck the copyright, as you can do anything to the shit.
 " @author: oGsLP
-" @file: __init__.py.py
-" @time: 2021/8/4 12:17
+" @file: returns.py
+" @time: 2021/8/9 19:14
 " @function: 
 """
-from .returns import count_cumulative_returns
-from .risk import count_max_drawdown
+
+
+def count_cumulative_returns(data):
+    print(data)
+    pass
