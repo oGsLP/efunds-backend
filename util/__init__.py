@@ -8,5 +8,6 @@
 " @time: 2021/8/4 12:15
 " @function: 
 """
+from .api_util import succeed, fail
 from .date_util import *
 from .splitter import gsplit
