@@ -21,8 +21,8 @@ def cal_cumulative_return_rate(data) -> str:
         return \
             str(decimal_minus(
                 decimal_divide(
-                    decimal_add(data[-1]["accumulative_return_rate"], 1, const.PREC),
-                    decimal_add(data[0]["accumulative_return_rate"], 1, const.PREC)), 1))
+                    decimal_add(data[-1]["cumulative_return_rate"], 1, const.PREC),
+                    decimal_add(data[0]["cumulative_return_rate"], 1, const.PREC)), 1))
 
 
 def cal_cumulative_abnormal_return(data):

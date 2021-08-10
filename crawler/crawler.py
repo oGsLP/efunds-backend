@@ -45,7 +45,7 @@ class Crawler(object):
             items = record.split("_")
             data.append({
                 "date": items[0],
-                "accumulative_return_rate": items[1],
+                "cumulative_return_rate": items[1],
                 "net_asset_value": items[2],  # nav
                 "day_rate": items[4]
             })
