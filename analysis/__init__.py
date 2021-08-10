@@ -9,4 +9,4 @@
 " @function: 
 """
 from .returns import cal_cumulative_return_rate, cal_cumulative_abnormal_return
-from .risk import cal_sharpe_ratio, cal_max_drawdown
+from .risk import cal_sharpe_ratio, cal_max_drawdown, cal_max_drawdown_list
