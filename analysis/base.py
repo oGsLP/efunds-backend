@@ -15,27 +15,30 @@ from constants import Const
 const = Const.analysis
 
 
-def decimal_add(a, b, prec: Decimal = None) -> Decimal:
+def decimal_add(a, b, prec: Decimal = None, rounding: str = None) -> Decimal:
     result = Decimal(str(a)) + Decimal(str(b))
-    return __wrap_prec(result, prec)
+    return __wrap_prec(result, prec, rounding)
 
 
-def decimal_minus(a, b, prec: Decimal = None) -> Decimal:
+def decimal_minus(a, b, prec: Decimal = None, rounding: str = None) -> Decimal:
     result = Decimal(str(a)) - Decimal(str(b))
-    return __wrap_prec(result, prec)
+    return __wrap_prec(result, prec, rounding)
 
 
-def decimal_divide(divided, divider, prec: Decimal = None) -> Decimal:
+def decimal_divide(divided, divider, prec: Decimal = None, rounding: str = None) -> Decimal:
     result = Decimal(str(divided)) / Decimal(str(divider))
-    return __wrap_prec(result, prec)
+    return __wrap_prec(result, prec, rounding)
 
 
-def decimal_multiple(a, b, prec: Decimal = None) -> Decimal:
+def decimal_multiple(a, b, prec: Decimal = None, rounding: str = None) -> Decimal:
     result = Decimal(str(a)) * Decimal(str(b))
-    return __wrap_prec(result, prec)
+    return __wrap_prec(result, prec, rounding)
 
 
-def __wrap_prec(result: Decimal, prec: Decimal) -> Decimal:
-    if prec:
-        return result.quantize(prec)
+def __wrap_prec(result: Decimal, prec: Decimal, rounding: str = None) -> Decimal:
+    if prec is not None:
+        if rounding is None:
+            return result.quantize(prec)
+        else:
+            return result.quantize(prec, rounding)
     return result
