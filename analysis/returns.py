@@ -8,8 +8,23 @@
 " @time: 2021/8/9 19:14
 " @function: 
 """
+from .base import const, decimal_divide, decimal_add, decimal_minus
 
 
-def count_cumulative_returns(data):
+def cal_cumulative_returns(data) -> str:
+    if type(data) is tuple:
+        return str(decimal_minus(decimal_divide(data[1], data[0], const.PREC), 1))
+    if type(data) is list:
+        data.sort(key=lambda item: item["date"])
+        print(data[0])
+        print(data[-1])
+        return \
+            str(decimal_minus(
+                decimal_divide(
+                    decimal_add(data[-1]["accumulative_return_rate"], 1, const.PREC),
+                    decimal_add(data[0]["accumulative_return_rate"], 1, const.PREC)), 1))
+
+
+def cal_cumulative_abnormal_returns(data):
     print(data)
     pass
