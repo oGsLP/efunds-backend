@@ -11,7 +11,7 @@
 from .base import const, decimal_divide, decimal_add, decimal_minus
 
 
-def cal_cumulative_returns(data) -> str:
+def cal_cumulative_return_rate(data) -> str:
     if type(data) is tuple:
         return str(decimal_minus(decimal_divide(data[1], data[0], const.PREC), 1))
     if type(data) is list:
@@ -25,6 +25,6 @@ def cal_cumulative_returns(data) -> str:
                     decimal_add(data[0]["accumulative_return_rate"], 1, const.PREC)), 1))
 
 
-def cal_cumulative_abnormal_returns(data):
+def cal_cumulative_abnormal_return(data):
     print(data)
     pass

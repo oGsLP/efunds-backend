@@ -10,6 +10,11 @@
 """
 
 
-def count_max_drawdown(data):
+def cal_sharpe_ratio(data):
+    print(data)
+    pass
+
+
+def cal_max_drawdown(data):
     print(data)
     pass
