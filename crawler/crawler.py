@@ -36,11 +36,20 @@ class Crawler(object):
         # 从text中提取出json数据
         if not res or res.count("\"") != 2:
             raise Exception("[Exception] cannot resolve response data!")
+
         data = []
-        gen = gsplit(res.split("\"")[1], ";")
-        next(gen)
-        for s in gen:
-            data.append(s.split("_"))
+        generator = gsplit(res.split("\"")[1], ";")
+        next(generator)
+
+        for record in generator:
+            items = record.split("_")
+            data.append({
+                "date": items[0],
+                "accumulative_return_rate": items[1],
+                "net_asset_value": items[2],  # nav
+                "day_rate": items[4]
+            })
+
         # 返回数据供处理
         return data
 
