@@ -12,7 +12,10 @@ from .base import const, decimal_divide, decimal_add, decimal_minus
 
 
 def cal_cumulative_return_rate(data: tuple) -> str:
-    return str(decimal_minus(decimal_divide(data[1], data[0], const.PREC), 1))
+    return str(decimal_minus(
+        decimal_divide(
+            decimal_add(data[1], 1),
+            decimal_add(data[0], 1), const.PREC), 1))
 
 
 def cal_cumulative_return_rate_list(data: list) -> list[dict]:
