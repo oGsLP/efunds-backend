@@ -8,6 +8,7 @@
 " @time: 2021/8/4 16:43
 " @function: 
 """
+from .analysis_constants import AnalysisConstants
 from .constant import Constant
 from .crawler_constants import CrawlerConstants
 from .db_constants import DataBaseConstants
@@ -21,6 +22,7 @@ class _Const(object):
     math = MathConstants()
     server = ServerConstants()
     db = DataBaseConstants()
+    analysis = AnalysisConstants()
 
 
 Const = _Const()
