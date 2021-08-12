@@ -8,5 +8,5 @@
 " @time: 2021/8/4 12:17
 " @function: 
 """
-from .returns import cal_cumulative_return_rate, cal_cumulative_abnormal_return
+from .returns import cal_holding_return_rate, cal_cumulative_return_rate, cal_cumulative_abnormal_return
 from .risk import cal_sharpe_ratio, cal_max_drawdown, cal_max_drawdown_list

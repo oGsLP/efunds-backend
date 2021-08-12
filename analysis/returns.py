@@ -8,17 +8,25 @@
 " @time: 2021/8/9 19:14
 " @function: 
 """
+
 from .base import const, decimal_divide, decimal_add, decimal_minus
 
 
-def cal_cumulative_return_rate(data: tuple) -> str:
-    return str(decimal_minus(
-        decimal_divide(
-            decimal_add(data[1], 1),
-            decimal_add(data[0], 1), const.PREC), 1))
+def cal_holding_return_rate(data: list) -> str:
+    data.sort(key=lambda item: item["date"])
+
+    return str(
+        decimal_minus(
+            decimal_divide(
+                decimal_add(data[-1]["cumulative_return_rate"], 1),
+                decimal_add(data[0]["cumulative_return_rate"], 1),
+                const.PREC
+            ),
+            1,
+            const.RATIO_PREC))
 
 
-def cal_cumulative_return_rate_list(data: list) -> list[dict]:
+def cal_cumulative_return_rate(data: list) -> list[dict]:
     data.sort(key=lambda item: item["date"])
     result = []
     first = data[0]
@@ -29,7 +37,11 @@ def cal_cumulative_return_rate_list(data: list) -> list[dict]:
             "car": str(decimal_minus(
                 decimal_divide(
                     decimal_add(cur["cumulative_return_rate"], 1),
-                    decimal_add(first["cumulative_return_rate"], 1), const.PREC), 1))
+                    decimal_add(first["cumulative_return_rate"], 1),
+                    const.PREC
+                ),
+                1,
+                const.RATIO_PREC))
         })
 
     return result
