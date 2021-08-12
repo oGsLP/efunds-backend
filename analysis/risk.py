@@ -8,7 +8,6 @@
 " @time: 2021/8/9 19:14
 " @function: 
 """
-
 from decimal import Decimal
 
 import numpy as np
@@ -106,22 +105,42 @@ def cal_sharpe_ratio_daily(data):
 
 def cal_max_drawdown(data: list[dict]) -> dict:
     data.sort(key=lambda item: item["date"])
-    first = data[0]
-    minimum = first["cumulative_return_rate"]
-    minimum_date = first["date"]
+
+    maximum = data[0]
+    minimum = data[0]
+    tmp_maximum = data[0]
+    tmp_minimum = data[0]
+    tmp_drawdown = Decimal(0)
+    max_drawdown = Decimal(0)
     for record in data[1:]:
-        if record["cumulative_return_rate"] < minimum:
-            minimum = record["cumulative_return_rate"]
-            minimum_date = record["date"]
-    if minimum_date == first["date"]:
-        mdd = '0'
-    else:
-        mdd = str(decimal_minus(first["cumulative_return_rate"], minimum, const.PREC))
+        if record["cumulative_return_rate"] < tmp_minimum["cumulative_return_rate"]:
+            tmp_minimum = record
+            tmp_drawdown = max(tmp_drawdown,
+                               decimal_minus(
+                                   decimal_divide(
+                                       decimal_add(tmp_maximum["cumulative_return_rate"], 1),
+                                       decimal_add(tmp_minimum["cumulative_return_rate"], 1)
+                                       , const.RATIO_PREC)
+                                   , 1))
+        elif record["cumulative_return_rate"] > tmp_maximum["cumulative_return_rate"]:
+            if tmp_drawdown > max_drawdown:
+                maximum = tmp_maximum
+                minimum = tmp_minimum
+                max_drawdown = tmp_drawdown
+            tmp_maximum = record
+            tmp_minimum = record
+            tmp_drawdown = Decimal(0)
+    if tmp_drawdown > max_drawdown:
+        maximum = tmp_maximum
+        minimum = tmp_minimum
+        max_drawdown = tmp_drawdown
+
     return {
-        "from": first["date"],
+        "from": data[0]["date"],
         "to": data[-1]["date"],
-        "mdd": mdd,
-        "mdd_date": minimum_date
+        "mdd": str(max_drawdown),
+        "mdd_peak": maximum,
+        "mdd_nadir": minimum
     }
 
 

@@ -16,6 +16,7 @@ from .constant import Constant
 @Constant
 class AnalysisConstants(object):
     BASE = 100000
+    RATIO_PREC = Decimal("0.0000")
     PREC = Decimal('0.00000000')
     R = 0.03
     MONTH = 12
