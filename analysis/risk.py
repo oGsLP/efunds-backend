@@ -8,12 +8,100 @@
 " @time: 2021/8/9 19:14
 " @function: 
 """
-from .base import const, decimal_minus
+
+from decimal import Decimal
+
+import numpy as np
+
+from .base import const, decimal_add, decimal_minus, decimal_divide, decimal_multiple
+
+R_YEARLY = Decimal(const.R)
+R_MONTHLY = Decimal((1 + const.R) ** (1 / const.MONTH) - 1)
+R_DAILY = Decimal((1 + const.R) ** (1 / const.DAY) - 1)
 
 
-def cal_sharpe_ratio(data):
-    print(data)
-    pass
+def cal_sharpe_ratio(data, frequency="year"):
+    if frequency == "year":
+        return cal_sharpe_ratio_yearly(data)
+    if frequency == "month":
+        return cal_sharpe_ratio_monthly(data)
+    if frequency == "day":
+        return cal_sharpe_ratio_daily(data)
+
+
+def cal_sharpe_ratio_yearly(data):
+    data.sort(key=lambda item: item["date"])
+
+    returns = []
+    year = data[0]["date"][0:4]
+    start_crr = data[0]["cumulative_return_rate"]
+    for i in range(1, len(data)):
+        if data[i]["date"][0:4] != year:
+            returns.append(
+                decimal_minus(
+                    decimal_divide(
+                        decimal_add(data[i - 1]["cumulative_return_rate"], 1),
+                        decimal_add(start_crr, 1),
+                        const.PREC
+                    ), 1))
+            start_crr = data[i - 1]["cumulative_return_rate"]
+            year = data[i]["date"][:4]
+
+    returns.append(
+        decimal_minus(
+            decimal_divide(
+                decimal_add(data[-1]["cumulative_return_rate"], 1),
+                decimal_add(start_crr, 1),
+                const.PREC
+            ), 1))
+
+    returns_mean = np.mean(returns)
+    returns_std = np.std(returns, ddof=1)
+    # print(returns_mean, R_YEARLY, returns_std)
+    return str(decimal_divide((returns_mean - R_YEARLY), returns_std, const.PREC))
+
+
+def cal_sharpe_ratio_monthly(data):
+    data.sort(key=lambda item: item["date"])
+
+    returns = []
+    month = data[0]["date"][0:6]
+    start_crr = data[0]["cumulative_return_rate"]
+
+    for i in range(1, len(data)):
+        if data[i]["date"][0:6] != month:
+            returns.append(
+                decimal_minus(
+                    decimal_divide(
+                        decimal_add(data[i - 1]["cumulative_return_rate"], 1),
+                        decimal_add(start_crr, 1),
+                        const.PREC
+                    ), 1))
+            start_crr = data[i - 1]["cumulative_return_rate"]
+            month = data[i]["date"][:4]
+
+    returns.append(
+        decimal_minus(
+            decimal_divide(
+                decimal_add(data[- 1]["cumulative_return_rate"], 1),
+                decimal_add(start_crr, 1),
+                const.PREC
+            ), 1))
+
+    returns_mean = np.mean(returns)
+    returns_std = np.std(returns, ddof=1)
+    # print(returns_mean, R_MONTHLY, returns_std)
+    return str(
+        decimal_multiple(decimal_divide((returns_mean - R_MONTHLY), returns_std), const.MONTH ** (1 / 2), const.PREC))
+
+
+def cal_sharpe_ratio_daily(data):
+    returns = [Decimal(data[i]["day_rate"]) for i in range(1, len(data))]
+    returns_mean = np.mean(returns)
+    returns_std = np.std(returns, ddof=1)
+    # print(returns_mean, R_YEARLY, returns_std)
+    return str(
+        decimal_multiple(decimal_divide((returns_mean - R_DAILY), returns_std), const.DAY ** (1 / 2), const.PREC))
 
 
 def cal_max_drawdown(data: list[dict]) -> dict:
