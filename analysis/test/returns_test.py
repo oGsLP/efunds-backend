@@ -10,7 +10,7 @@
 """
 import unittest
 
-from analysis.returns import cal_cumulative_return_rate, cal_cumulative_return_rate_list
+from analysis.returns import cal_holding_return_rate, cal_cumulative_return_rate
 
 data = [
     {"date": "20100101", "cumulative_return_rate": "0.25"},
@@ -30,16 +30,16 @@ class ReturnsTest(unittest.TestCase):
     def tearDown(self) -> None:
         print("[analysis/returns test] ends...")
 
-    def test_cal_cumulative_return_rate(self):
-        self.assertEqual("0.2", cal_cumulative_return_rate((1, 1.4)))
+    def test_cal_holding_return_rate(self):
+        self.assertEqual("-0.0400", cal_holding_return_rate(data))
 
-    def test_cal_cumulative_return_rate_list(self):
-        result = cal_cumulative_return_rate_list(data)
-        self.assertEqual('-0.04', result[0]['car'])
-        self.assertEqual('0.04', result[1]['car'])
-        self.assertEqual('-0.184', result[2]['car'])
-        self.assertEqual('0.44', result[3]['car'])
-        self.assertEqual('-0.04', result[4]['car'])
+    def test_cal_cumulative_return_rate(self):
+        result = cal_cumulative_return_rate(data)
+        self.assertEqual('-0.0400', result[0]['car'])
+        self.assertEqual('0.0400', result[1]['car'])
+        self.assertEqual('-0.1840', result[2]['car'])
+        self.assertEqual('0.4400', result[3]['car'])
+        self.assertEqual('-0.0400', result[4]['car'])
 
 
 if __name__ == '__main__':
