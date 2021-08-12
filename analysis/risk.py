@@ -115,13 +115,15 @@ def cal_max_drawdown(data: list[dict]) -> dict:
     for record in data[1:]:
         if record["cumulative_return_rate"] < tmp_minimum["cumulative_return_rate"]:
             tmp_minimum = record
-            tmp_drawdown = max(tmp_drawdown,
-                               decimal_minus(
-                                   decimal_divide(
-                                       decimal_add(tmp_maximum["cumulative_return_rate"], 1),
-                                       decimal_add(tmp_minimum["cumulative_return_rate"], 1)
-                                       , const.RATIO_PREC)
-                                   , 1))
+            tmp_drawdown = max(
+                tmp_drawdown,
+                decimal_minus(
+                    1,
+                    decimal_divide(
+                        decimal_add(tmp_minimum["cumulative_return_rate"], 1),
+                        decimal_add(tmp_maximum["cumulative_return_rate"], 1)
+                        , const.RATIO_PREC)
+                ))
         elif record["cumulative_return_rate"] > tmp_maximum["cumulative_return_rate"]:
             if tmp_drawdown > max_drawdown:
                 maximum = tmp_maximum
@@ -147,23 +149,24 @@ def cal_max_drawdown(data: list[dict]) -> dict:
 def cal_max_drawdown_list(data: list[dict]) -> list[dict]:
     data.sort(key=lambda item: item["date"])
     result = []
-    last = data[-1]
-    minimum = last["cumulative_return_rate"]
-    minimum_date = last["date"]
-    for record in reversed(data[:-1]):
-        if record["cumulative_return_rate"] < minimum:
-            minimum = record["cumulative_return_rate"]
-            minimum_date = record["date"]
-        if minimum_date == record["date"]:
-            mdd = '0'
-        else:
-
-            mdd = str(decimal_minus(record["cumulative_return_rate"], minimum, const.PREC))
-        result.append({
-            "from": record["date"],
-            "to": last["date"],
-            "mdd": mdd,
-            "mdd_date": minimum_date
-        })
-    result.reverse()
+    for i in range(len(data)):
+        result.append(cal_max_drawdown(data[:-i]))
+    # minimum = last["cumulative_return_rate"]
+    # minimum_date = last["date"]
+    # for record in reversed(data[:-1]):
+    #     if record["cumulative_return_rate"] < minimum:
+    #         minimum = record["cumulative_return_rate"]
+    #         minimum_date = record["date"]
+    #     if minimum_date == record["date"]:
+    #         mdd = '0'
+    #     else:
+    #
+    #         mdd = str(decimal_minus(record["cumulative_return_rate"], minimum, const.PREC))
+    #     result.append({
+    #         "from": record["date"],
+    #         "to": last["date"],
+    #         "mdd": mdd,
+    #         "mdd_date": minimum_date
+    #     })
+    # result.reverse()
     return result

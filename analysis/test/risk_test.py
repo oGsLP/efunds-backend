@@ -10,6 +10,7 @@
 """
 import unittest
 
+from analysis.base import *
 from analysis.risk import cal_max_drawdown, cal_max_drawdown_list
 
 data = [
@@ -21,8 +22,11 @@ data = [
     {"date": "20100106", "cumulative_return_rate": "0.2"}
 ]
 
+v_2154 = str(1 - decimal_divide("1.02", "1.3", const.RATIO_PREC))
+
 
 class RiskTest(unittest.TestCase):
+
     def setUp(self) -> None:
         print("[analysis/risk test] starts...")
 
@@ -30,18 +34,18 @@ class RiskTest(unittest.TestCase):
         print("[analysis/risk test] ends...")
 
     def test_cal_max_drawdown(self):
-        self.assertEqual('0.08', cal_max_drawdown(data)["mdd"])
-        self.assertEqual('0.18', cal_max_drawdown(data[1:])["mdd"])
-        self.assertEqual('0.28', cal_max_drawdown(data[2:])["mdd"])
-        self.assertEqual('0', cal_max_drawdown(data[3:])["mdd"])
-        self.assertEqual('0.6', cal_max_drawdown(data[4:])["mdd"])
-        self.assertEqual('0.08', cal_max_drawdown(data[:-1])["mdd"])
-        self.assertEqual('0.18', cal_max_drawdown(data[1:-1])["mdd"])
-        self.assertEqual('0.28', cal_max_drawdown(data[2:-1])["mdd"])
+        self.assertEqual('0.3333', cal_max_drawdown(data)["mdd"])
+        self.assertEqual('0.3333', cal_max_drawdown(data[1:])["mdd"])
+        self.assertEqual('0.3333', cal_max_drawdown(data[2:])["mdd"])
+        self.assertEqual('0.3333', cal_max_drawdown(data[3:])["mdd"])
+        self.assertEqual('0.3333', cal_max_drawdown(data[4:])["mdd"])
+        self.assertEqual(v_2154, cal_max_drawdown(data[:-1])["mdd"])
+        self.assertEqual(v_2154, cal_max_drawdown(data[1:-1])["mdd"])
+        self.assertEqual(v_2154, cal_max_drawdown(data[2:-1])["mdd"])
         self.assertEqual('0', cal_max_drawdown(data[3:-1])["mdd"])
-        self.assertEqual('0.08', cal_max_drawdown(data[:-2])["mdd"])
-        self.assertEqual('0.18', cal_max_drawdown(data[1:-2])["mdd"])
-        self.assertEqual('0.28', cal_max_drawdown(data[2:-2])["mdd"])
+        self.assertEqual(v_2154, cal_max_drawdown(data[:-2])["mdd"])
+        self.assertEqual(v_2154, cal_max_drawdown(data[1:-2])["mdd"])
+        self.assertEqual(v_2154, cal_max_drawdown(data[2:-2])["mdd"])
         self.assertEqual('0', cal_max_drawdown(data[:-3])["mdd"])
         self.assertEqual('0', cal_max_drawdown(data[1:-3])["mdd"])
         self.assertEqual('0', cal_max_drawdown(data[:-4])["mdd"])
