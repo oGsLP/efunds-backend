@@ -8,7 +8,7 @@
 " @time: 2021/8/4 22:16
 " @function: 
 """
-from flask import Blueprint
+from flask import Blueprint, request
 
 api = Blueprint("api", __name__)
 
@@ -20,3 +20,28 @@ from util.api_util import succeed
 def test():
     data_service = service_factory.data_service
     return succeed(data_service.get_raw_data(110022))
+
+
+@api.route("/data/<string:code>")
+def get_data(code):
+    from_date = request.args.get("from")
+    to_date = request.args.get("to")
+    data_service = service_factory.data_service
+    if to_date and to_date:
+        return succeed(data_service.get_raw_data_with_range(code, from_date, to_date))
+    else:
+        return succeed(data_service.get_raw_data(code))
+
+
+@api.route("/data/<string:code>/returns")
+def get_returns_data(code):
+    data_service = service_factory.data_service
+
+    return succeed(data_service.get_raw_data(code))
+
+
+@api.route("/data/<string:code>/risk")
+def get_risk_data(code):
+    data_service = service_factory.data_service
+
+    return succeed(data_service.get_raw_data(code))
