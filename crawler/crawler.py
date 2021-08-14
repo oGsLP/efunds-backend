@@ -27,8 +27,7 @@ class Crawler(object):
         return cls.instance
 
     def crawl_data(self, code: int = Const.crawler.CONSUMER_SECTOR_STOCK_CODE,
-                   data_range: str = Const.crawler.RANGE_ALL,
-                   date: tuple = None):
+                   data_range: str = Const.crawler.RANGE_ALL):
         # 构造请求url
         url = self.__construct_url(code, data_range)
         # 获取包含数据的js代码
@@ -43,6 +42,7 @@ class Crawler(object):
 
         for record in generator:
             items = record.split("_")
+
             data.append({
                 "date": items[0],
                 "cumulative_return_rate": items[1],

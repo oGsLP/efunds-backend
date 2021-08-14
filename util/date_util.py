@@ -8,8 +8,10 @@
 " @time: 2021/8/4 17:24
 " @function: handle and convert time&date
 """
-from functools import lru_cache
 import datetime
+from functools import lru_cache
+
+FIRST_DATE = "0101"
 
 
 def get_current_time() -> str:
@@ -31,7 +33,19 @@ def get_current_date() -> str:
     Returns:
         日期 str(8)
     """
-    return str(datetime.date.today()).replace("-", "")
+    return str().replace("-", "")
+
+
+@lru_cache(maxsize=1)
+def get_current_year_first_date() -> str:
+    """
+    获得今年第一天的8位格式日期
+    例：20210101
+
+    Returns:
+        日期 str(8)
+    """
+    return str(datetime.date.today())[:4] + FIRST_DATE
 
 
 def get_min_date() -> str:
