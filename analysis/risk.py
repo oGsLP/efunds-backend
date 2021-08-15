@@ -20,6 +20,8 @@ R_DAILY = Decimal((1 + const.R) ** (1 / const.DAY) - 1)
 
 
 def cal_sharpe_ratio(data, frequency="year"):
+    if data is None or len(data) == 0:
+        pass
     if frequency == "year":
         return cal_sharpe_ratio_yearly(data)
     if frequency == "month":
@@ -29,6 +31,8 @@ def cal_sharpe_ratio(data, frequency="year"):
 
 
 def cal_sharpe_ratio_yearly(data):
+    if data is None or len(data) == 0:
+        pass
     data.sort(key=lambda item: item["date"])
 
     returns = []
@@ -61,6 +65,8 @@ def cal_sharpe_ratio_yearly(data):
 
 
 def cal_sharpe_ratio_monthly(data):
+    if data is None or len(data) == 0:
+        pass
     data.sort(key=lambda item: item["date"])
 
     returns = []
@@ -95,6 +101,8 @@ def cal_sharpe_ratio_monthly(data):
 
 
 def cal_sharpe_ratio_daily(data):
+    if data is None or len(data) == 0:
+        pass
     returns = [Decimal(data[i]["day_rate"]) for i in range(1, len(data))]
     returns_mean = np.mean(returns)
     returns_std = np.std(returns, ddof=1)
@@ -104,6 +112,8 @@ def cal_sharpe_ratio_daily(data):
 
 
 def cal_max_drawdown(data: list[dict]) -> dict:
+    if data is None or len(data) == 0:
+        pass
     data.sort(key=lambda item: item["date"])
 
     maximum = data[0]
@@ -147,10 +157,12 @@ def cal_max_drawdown(data: list[dict]) -> dict:
 
 
 def cal_max_drawdown_list(data: list[dict]) -> list[dict]:
+    if data is None or len(data) == 0:
+        pass
     data.sort(key=lambda item: item["date"])
     result = []
     for i in range(len(data)):
-        result.append(cal_max_drawdown(data[:-i]))
+        result.append(cal_max_drawdown(data[i:]))
     # minimum = last["cumulative_return_rate"]
     # minimum_date = last["date"]
     # for record in reversed(data[:-1]):

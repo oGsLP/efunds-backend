@@ -13,6 +13,8 @@ from .base import const, decimal_divide, decimal_add, decimal_minus
 
 
 def cal_holding_return_rate(data: list) -> str:
+    if data is None or len(data) == 0:
+        pass
     data.sort(key=lambda item: item["date"])
 
     return str(
@@ -27,6 +29,8 @@ def cal_holding_return_rate(data: list) -> str:
 
 
 def cal_cumulative_return_rate(data: list) -> list[dict]:
+    if data is None or len(data) == 0:
+        pass
     data.sort(key=lambda item: item["date"])
     result = []
     first = data[0]
@@ -48,5 +52,7 @@ def cal_cumulative_return_rate(data: list) -> list[dict]:
 
 
 def cal_cumulative_abnormal_return(data):
+    if data is None or len(data) == 0:
+        pass
     print(data)
     pass
