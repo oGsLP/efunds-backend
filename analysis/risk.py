@@ -162,7 +162,9 @@ def cal_max_drawdown_list(data: list[dict]) -> list[dict]:
     data.sort(key=lambda item: item["date"])
     result = []
     for i in range(len(data)):
-        result.append(cal_max_drawdown(data[i:]))
+        tmp = cal_max_drawdown(data[i:])
+        if tmp is not None:
+            result.append(tmp)
     # minimum = last["cumulative_return_rate"]
     # minimum_date = last["date"]
     # for record in reversed(data[:-1]):
