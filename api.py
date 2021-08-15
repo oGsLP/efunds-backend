@@ -24,24 +24,29 @@ def test():
 
 @api.route("/data/<string:code>")
 def get_data(code):
-    from_date = request.args.get("from")
-    to_date = request.args.get("to")
-    data_service = service_factory.data_service
-    if to_date and to_date:
-        return succeed(data_service.get_raw_data_with_range(code, from_date, to_date))
-    else:
-        return succeed(data_service.get_raw_data(code))
+    return parse_args_and_get_data(code)
 
 
 @api.route("/data/<string:code>/returns")
 def get_returns_data(code):
-    data_service = service_factory.data_service
+    analysis_service = service_factory.analysis_service
 
-    return succeed(data_service.get_raw_data(code))
+    return succeed(analysis_service.get_returns_data(parse_args_and_get_data(code)))
 
 
 @api.route("/data/<string:code>/risk")
 def get_risk_data(code):
-    data_service = service_factory.data_service
+    analysis_service = service_factory.analysis_service
 
-    return succeed(data_service.get_raw_data(code))
+    return succeed(analysis_service.get_risk_data(parse_args_and_get_data(code)))
+
+
+def parse_args_and_get_data(code):
+    data_service = service_factory.data_service
+    from_date = request.args.get("from")
+    to_date = request.args.get("to")
+
+    if to_date and to_date:
+        data = data_service.get_raw_data_with_range(code, from_date, to_date)
+    else:
+        data = data_service.get_raw_data(code)
