@@ -13,6 +13,7 @@ from .constant import Constant
 from .crawler_constants import CrawlerConstants
 from .db_constants import DataBaseConstants
 from .math_constants import MathConstants
+from .request_constants import RequestConstants
 from .server_constants import ServerConstants
 
 
@@ -23,6 +24,7 @@ class _Const(object):
     server = ServerConstants()
     db = DataBaseConstants()
     analysis = AnalysisConstants()
+    req = RequestConstants()
 
 
 Const = _Const()

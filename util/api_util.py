@@ -17,6 +17,16 @@ FAIL_CODE = 1
 
 
 def succeed(data, code: int = SUCCEED_CODE, desc: str = SUCCEED_DESC) -> dict:
+    """
+    响应请求成功时，返回包装响应数据
+    Args:
+        data: 返回数据
+        code: 返回码
+        desc: 返回描述
+
+    Returns: 包装响应
+
+    """
     result = {
         "code": code,
         "desc": desc
@@ -41,6 +51,15 @@ def succeed(data, code: int = SUCCEED_CODE, desc: str = SUCCEED_DESC) -> dict:
 
 
 def fail(code: int = FAIL_CODE, desc: str = FAIL_DESC):
+    """
+    响应请求失败时，返回包装响应数据
+    Args:
+        code: 返回码
+        desc: 返回描述
+
+    Returns: 包装响应
+
+    """
     return {
         "code": code,
         "desc": desc
