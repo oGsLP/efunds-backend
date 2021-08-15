@@ -8,7 +8,6 @@
 " @time: 2021/8/5 14:28
 " @function: 
 """
-from functools import lru_cache
 
 from constants import Const
 from crawler import Crawler
@@ -28,6 +27,14 @@ class DataService(object):
         # self.__connector = MongoDBConnector()
 
     def get_raw_data(self, code):
+        """
+        获得所有原始数据
+        Args:
+            code: 股票码
+
+        Returns: 数据
+
+        """
         if not self.__data:
             # TODO 数据库读写
             self.__data = self.__crawler.crawl_data(code=code, data_range=Const.crawler.RANGE_ALL)
@@ -35,12 +42,30 @@ class DataService(object):
 
     @lru_cache(maxsize=1)
     def get_raw_data_current_year(self, code):
+        """
+        获得今年的原始数据
+        Args:
+            code: 股票码
+
+        Returns: 数据
+
+        """
         if not self.__data:
             self.__data = self.__crawler.crawl_data(code=code, data_range=Const.crawler.RANGE_ALL)
         current_year_first_date = get_current_year_first_date()
         return [item for item in self.__data if item["date"] >= current_year_first_date]
 
     def get_raw_data_with_range(self, code, from_date, to_date):
+        """
+        获得时间段内的原始数据
+        Args:
+            code: 股票码
+            from_date: 起始日期
+            to_date: 截止日期
+
+        Returns: 数据
+
+        """
         date = [from_date, to_date]
         if not check_date_format(from_date):
             date[0] = get_min_date()

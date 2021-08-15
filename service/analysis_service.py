@@ -14,10 +14,18 @@ from analysis import *
 class AnalysisService(object):
 
     def __init__(self):
-        print()
+        print("analysis service")
 
     @staticmethod
     def get_returns_data(data: list) -> dict:
+        """
+        获得所有利益相关的数据
+        Args:
+            data: 数据
+
+        Returns: 结果
+
+        """
         return {
             "hrr": cal_holding_return_rate(data),
             "crr": cal_cumulative_return_rate(data)
@@ -25,6 +33,14 @@ class AnalysisService(object):
 
     @staticmethod
     def get_risk_data(data: list) -> dict:
+        """
+        获得所有的风险相关数据
+        Args:
+            data: 数据
+
+        Returns: 结果
+
+        """
         year_list = []
         pre_idx = 0
         cur_year = data[0]["date"][0:4]
@@ -52,6 +68,14 @@ class AnalysisService(object):
 
     @staticmethod
     def get_risk_data_range(data: list) -> dict:
+        """
+        从范围数据中获取响应的风险相关数据：最大回撤及列表、夏普率
+        Args:
+            data: 范围数据
+
+        Returns: 结果
+
+        """
         return {
             "mdd": cal_max_drawdown(data),
             "mdd_list": cal_max_drawdown_list(data),
