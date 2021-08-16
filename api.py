@@ -52,7 +52,7 @@ def get_risk_data(code):
 def parse_args_and_get_data(code: int) -> tuple[bool, list]:
     data_service = service_factory.data_service
     range_type = request.args.get("type")
-
+    print(range_type)
     if not range_type or range_type == Const.req.RANGE_ALL:
         return False, data_service.get_raw_data(code)
     if range_type == Const.req.RANGE_CY:

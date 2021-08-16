@@ -47,7 +47,6 @@ def cal_cumulative_return_rate(data: list) -> list[dict]:
                 1,
                 const.RATIO_PREC))
         })
-
     return result
 
 

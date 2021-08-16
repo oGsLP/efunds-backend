@@ -31,7 +31,9 @@ class Crawler(object):
         # 构造请求url
         url = self.__construct_url(code, data_range)
         # 获取包含数据的js代码
+        print(url)
         res = requests.get(url).text
+        print(res)
         # 从text中提取出json数据
         if not res or res.count("\"") != 2:
             raise Exception("[Exception] cannot resolve response data!")
@@ -49,10 +51,14 @@ class Crawler(object):
                 "net_asset_value": items[2],  # nav
                 "day_rate": items[4]
             })
-
+        if data_range == Const.crawler.RANGE_ALL:
+            data += self.crawl_data(code, Const.crawler.RANGE_CURRENT_YEAR)
         # 返回数据供处理
         return data
 
     @staticmethod
     def __construct_url(code: int, data_range: str) -> str:
-        return Const.crawler.URL.format(code, data_range, date_util.get_current_date())
+        if data_range == Const.crawler.RANGE_ALL:
+            return Const.crawler.URL_ALL.format(code, data_range, date_util.get_current_date())
+        if data_range == Const.crawler.RANGE_CURRENT_YEAR:
+            return Const.crawler.URL_CY.format(code, data_range, date_util.get_current_date())

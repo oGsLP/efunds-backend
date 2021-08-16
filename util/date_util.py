@@ -33,7 +33,7 @@ def get_current_date() -> str:
     Returns:
         日期 str(8)
     """
-    return str().replace("-", "")
+    return str(datetime.date.today()).replace("-", "")
 
 
 @lru_cache(maxsize=1)

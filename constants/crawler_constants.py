@@ -13,10 +13,10 @@ from .constant import Constant
 @Constant
 class CrawlerConstants(object):
     # 数据url
-    URL = "https://static.efunds.com.cn/market/2.0/his/{}_{}.js?r={}"
+    URL_CY = "https://static.efunds.com.cn/market/2.0/{}_{}.js?r={}"
+    URL_ALL = "https://static.efunds.com.cn/market/2.0/his/{}_{}.js?r={}"
     # 消费行业股票基金代码
     CONSUMER_SECTOR_STOCK_CODE = 110022
     # 数据请求类型 今年 所有 时间段
     RANGE_CURRENT_YEAR = "cy"
     RANGE_ALL = "all"
-

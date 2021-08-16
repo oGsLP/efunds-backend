@@ -51,9 +51,10 @@ class DataService(object):
 
         """
         if not self.__data:
-            self.__data = self.__crawler.crawl_data(code=code, data_range=Const.crawler.RANGE_ALL)
-        current_year_first_date = get_current_year_first_date()
-        return [item for item in self.__data if item["date"] >= current_year_first_date]
+            return self.__crawler.crawl_data(code=code, data_range=Const.crawler.RANGE_CURRENT_YEAR)
+        else:
+            current_year_first_date = get_current_year_first_date()
+            return [item for item in self.__data if item["date"] >= current_year_first_date]
 
     def get_raw_data_with_range(self, code, from_date, to_date):
         """
