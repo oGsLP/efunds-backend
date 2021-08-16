@@ -28,7 +28,7 @@ class AnalysisService(object):
         """
         return {
             "hrr": cal_holding_return_rate(data),
-            "crr": cal_cumulative_return_rate(data)
+            "crr_list": cal_cumulative_return_rate(data)
         }
 
     @staticmethod
@@ -63,7 +63,7 @@ class AnalysisService(object):
             "sharpe_year_list": year_list,
             "sharpe_yearly": cal_sharpe_ratio(data, frequency="year"),
             "sharpe_monthly": cal_sharpe_ratio(data, frequency="month"),
-            "sharpe_day": cal_sharpe_ratio(data, frequency="day")
+            "sharpe_daily": cal_sharpe_ratio(data, frequency="day")
         }
 
     @staticmethod

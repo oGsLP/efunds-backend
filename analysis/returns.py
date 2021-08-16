@@ -38,7 +38,7 @@ def cal_cumulative_return_rate(data: list) -> list[dict]:
         cur = data[i]
         result.append({
             "date": cur["date"],
-            "car": str(decimal_minus(
+            "crr": str(decimal_minus(
                 decimal_divide(
                     decimal_add(cur["cumulative_return_rate"], 1),
                     decimal_add(first["cumulative_return_rate"], 1),

@@ -41,7 +41,7 @@ def get_returns_data(code):
 @api.route("/data/<int:code>/risk")
 def get_risk_data(code):
     analysis_service = service_factory.analysis_service
-    is_range, data = parse_args_and_get_data(code)[1]
+    is_range, data = parse_args_and_get_data(code)
     if not data or len(data) == 0:
         return fail(desc="None data crawled!")
     if is_range:

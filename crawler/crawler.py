@@ -33,7 +33,6 @@ class Crawler(object):
         # 获取包含数据的js代码
         print(url)
         res = requests.get(url).text
-        print(res)
         # 从text中提取出json数据
         if not res or res.count("\"") != 2:
             raise Exception("[Exception] cannot resolve response data!")
